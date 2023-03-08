@@ -37,7 +37,7 @@ async function achievement(text, icon=null) {
         if (err) rej(err);
         else {
           gm(buffer)
-          .font("assets/_fonts/Minecraft.ttf", 16)
+          .font("assets/fonts/Minecraft.ttf", 16)
           .fill('#ffff00') //yellow
           .drawText(60, 25, "Achievement get!")
           .fill('#ffffff') //white
