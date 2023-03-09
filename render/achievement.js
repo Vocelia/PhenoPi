@@ -21,8 +21,8 @@ let icons = {
 
 async function achievement(text, icon=null) {
   //215 is set as the minimum width
-  //each character is approximately 10.5 wide and 30 for padding
-  let textW = (Math.round(text.length * 10.5)<215) ? 215 : Math.round(text.length * 10.5)+30;
+  //each character is approximately 10.5 wide and 50 for padding
+  let textW = (Math.round(text.length * 10.5)<215) ? 215 : Math.round(text.length * 10.5)+50;
   icon = (!icon) ? Math.floor(Math.random()* 45)+1 : icon;
   let main = await jimp.read(`assets/achievement/${icon}.png`);
   let achmid = await jimp.read("assets/achievement/achmid.png");
