@@ -1,19 +1,11 @@
 const app = require("express")();
 const http = require("http").Server(app);
 const path = require("path");
+const utils = require("./utils.js");
 const port = 8080;
 
 let ship = require("./render/ship.js");
 let achievement = require("./render/achievement.js");
-
-let getHeaderObject = (url, obj) => {
-  return new Promise((res, rej) => {
-    fetch(url)
-    .then((response) => { return response.headers.get(obj) })
-    .then((type) => { res(type); })
-    .catch((err) => { rej(err); });
-  });
-}
 
 let getEndpoints = () => {
   let excluded = [
@@ -33,7 +25,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates"));
 
 app.get("/", (req, res) => {
-  //No page to display yet
+  res.send(utils.getOptimalFontSetting('assets/fonts/Minecraft.ttf', 'hello there boy!', 30, 50, 500, 500));
 });
 
 app.get("/endpoints", (req, res) => {
@@ -48,23 +40,23 @@ app.get("/ship", async (req, res) => {
     ); return;
   } else {
     try { //Check if given URLs are valid
-      await getHeaderObject(url1, 'Content-Type');
-      await getHeaderObject(url2, 'Content-Type');
+      await utils.getHeaderObject(url1, 'Content-Type');
+      await utils.getHeaderObject(url2, 'Content-Type');
     } catch (err) {
       res.status(400).send(
         "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
       ); return; 
     }
   }
-  let url1_type = await getHeaderObject(req.query.url1, 'Content-Type');
-  let url2_type = await getHeaderObject(req.query.url2, 'Content-Type');
+  let url1_type = await utils.getHeaderObject(req.query.url1, 'Content-Type');
+  let url2_type = await utils.getHeaderObject(req.query.url2, 'Content-Type');
   if (!['image/png', 'image/jpeg'].includes(url1_type) || !['image/png', 'image/jpeg'].includes(url2_type)) {
     res.status(400).send(
       "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
     ); return; 
   }
-  let url1_len = await getHeaderObject(req.query.url1, 'Content-Length');
-  let url2_len = await getHeaderObject(req.query.url2, 'Content-Length');
+  let url1_len = await utils.getHeaderObject(req.query.url1, 'Content-Length');
+  let url2_len = await utils.getHeaderObject(req.query.url2, 'Content-Length');
   if (url1_len>(6*1024*1024) || url2_len>(6*1024*1024)) { //Limit is set to 6 Megabytes
     res.status(413).send(
       "<h1>Error 413: Payload Too Large</h1><p>Image too large. The maximum Megabytes allowed is 6 MBs.</p>"
