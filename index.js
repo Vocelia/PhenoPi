@@ -5,6 +5,7 @@ const utils = require("./utils.js");
 const port = 8080;
 
 let ship = require("./render/ship.js");
+let joke = require("./render/joke.js");
 let achievement = require("./render/achievement.js");
 
 let getEndpoints = () => {
@@ -25,11 +26,45 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates"));
 
 app.get("/", (req, res) => {
-  res.send(utils.getOptimalFontSetting('assets/fonts/Minecraft.ttf', 'hello there boy!', 30, 50, 500, 500));
+  //Ahem...nothing here yet.......
 });
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/joke", async (req, res) => {
+  let data; let url = req.query.url;
+  if (!url) {
+    res.status(400).send(
+      "<h1>Error 400: Bad Request</h1><p>Missing required parameters.</p><p><b>/joke?url=...</b></p>"
+    ); return;
+  } else {
+    try { //Check if given URL is valid
+      await utils.getHeaderObject(url, 'Content-Type');
+    } catch (err) {
+      res.status(400).send(
+        "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
+      ); return; 
+    }
+  }
+  let url_type = await utils.getHeaderObject(req.query.url, 'Content-Type');
+  if (!['image/png', 'image/jpeg'].includes(url_type)) {
+    res.status(400).send(
+      "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
+    ); return; 
+  }
+  let url_len = await utils.getHeaderObject(req.query.url, 'Content-Length');
+  if (url_len>(6*1024*1024)) { //Limit is set to 6 Megabytes
+    res.status(413).send(
+      "<h1>Error 413: Payload Too Large</h1><p>Image too large. The maximum Megabytes allowed is 6 MBs.</p>"
+    ); return;
+  }
+  try { data = await joke.joke(url); }
+  catch (err) { res.status(500).send(`<h1>Error 500: Internal Server Error</h1><p>Something unexpected happened.</p><p><b>${err}</b></p>`); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/ship", async (req, res) => {
