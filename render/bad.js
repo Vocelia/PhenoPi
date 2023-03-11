@@ -4,7 +4,7 @@ const gm = require('gm').subClass({ imageMagick: '7+' });
 
 function bad(url, text) {
   return new Promise(async (res, rej) => {
-    let img, rtn, LowestSize = 20, HighestSize = 60;
+    let img, rtn, LowestSize = 20, HighestSize = 40;
     try { img = await jimp.read({url: url, header: {}}); }
     catch (err) { rej(err); }
     let bad = await jimp.read("assets/images/bad.jpg");
