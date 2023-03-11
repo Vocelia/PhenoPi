@@ -6,6 +6,7 @@ const port = 8080;
 
 let ship = require("./render/ship.js");
 let joke = require("./render/joke.js");
+let brain = require("./render/brain.js");
 let achievement = require("./render/achievement.js");
 
 let getEndpoints = () => {
@@ -31,6 +32,30 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/brain", async (req, res) => {
+  let txt1 = req.query.txt1; let txt2 = req.query.txt2; 
+  let data; let txt3 = req.query.txt3; let txt4 = req.query.txt4;
+  if (!(txt1 || txt2 || txt3 || txt4)) {
+    res.status(400).send(
+      "<h1>Error 400: Bad Request</h1><p>Missing required parameters.</p><p><b>/brain?txt1=...[OPTIONAL]&txt2=...[OPTIONAL]&txt3=...[OPTIONAL]&txt4=...[OPTIONAL]</b></p>"
+    ); return;
+  } else {
+    if ((typeof txt1 != "undefined" && txt1.length > 256) || 
+      (typeof txt2 != "undefined" && txt2.length > 256) || 
+      (typeof txt3 != "undefined" && txt3.length > 256) || 
+      (typeof txt4 != "undefined" && txt4.length > 256)) {
+      res.status(413).send(
+        "<h1>Error 413: Payload Too Large</h1><p>Text too long. The maximum text allowed is 256 characters.</p>"
+      ); return;
+    }
+  }
+  try { data = await brain.brain(txt1, txt2, txt3, txt4); }
+  catch (err) { res.status(500).send(`<h1>Error 500: Internal Server Error</h1><p>Something unexpected happened.</p><p><b>${err}</b></p>`); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/joke", async (req, res) => {
