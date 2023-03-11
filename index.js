@@ -6,6 +6,7 @@ const port = 8080;
 
 let ship = require("./render/ship.js");
 let joke = require("./render/joke.js");
+let bad = require("./render/bad.js");
 let brain = require("./render/brain.js");
 let achievement = require("./render/achievement.js");
 
@@ -32,6 +33,45 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/bad", async (req, res) => {
+  let data; let url = req.query.url;  let text = req.query.text; 
+  if ((typeof text != "undefined" && text.length > 256)) {
+    res.status(413).send(
+      "<h1>Error 413: Payload Too Large</h1><p>Text too long. The maximum text allowed is 256 characters.</p>"
+    ); return;
+  }
+  if (!url) {
+    res.status(400).send(
+      "<h1>Error 400: Bad Request</h1><p>Missing required parameters.</p><p><b>/bad?url=...&text=...[OPTIONAL]</b></p>"
+    ); return;
+  } else {
+    try { //Check if given URL is valid
+      await utils.getHeaderObject(url, 'Content-Type');
+    } catch (err) {
+      res.status(400).send(
+        "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
+      ); return; 
+    }
+  }
+  let url_type = await utils.getHeaderObject(req.query.url, 'Content-Type');
+  if (!['image/png', 'image/jpeg'].includes(url_type)) {
+    res.status(400).send(
+      "<h1>Error 400: Bad Request</h1><p>Invalid Image URL. Please provide a valid URL to a png/jpeg image.</b></p>"
+    ); return; 
+  }
+  let url_len = await utils.getHeaderObject(req.query.url, 'Content-Length');
+  if (url_len>(6*1024*1024)) { //Limit is set to 6 Megabytes
+    res.status(413).send(
+      "<h1>Error 413: Payload Too Large</h1><p>Image too large. The maximum Megabytes allowed is 6 MBs.</p>"
+    ); return;
+  }
+  try { data = await bad.bad(url, text); }
+  catch (err) { res.status(500).send(`<h1>Error 500: Internal Server Error</h1><p>Something unexpected happened.</p><p><b>${err}</b></p>`); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/brain", async (req, res) => {
