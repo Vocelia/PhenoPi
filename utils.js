@@ -1,4 +1,61 @@
+const { response } = require('express');
 const opentype = require('opentype.js');
+
+let StatusCode = {
+  400: "Bad Request",
+  413: "Payload Too Large",
+  500: "Internal Server Error"
+};
+
+let DetailedError = {
+  "TextOverFlow": {
+    simplified: "Text Too Long",
+    expanded: "The maximum text length allowed is /**/ character(s)"
+  },
+  "MissingParameters": {
+    simplified: "Missing Required Parameters"
+  },
+  "InvalidURL": {
+    simplified: "Invalid Image URL",
+    expanded: "Please provide a valid URL to a PNG/JPEG image"
+  },
+  "InvalidIcon": {
+    simplified: "Invalid icon ID",
+    expanded: "Please provide a number ranging between 1 and 45"
+  },
+  "ImageTooLarge": {
+    simplified: "Image Too Large",
+    expanded: "The maximum image size allowed is /**/ MB(s)"
+  },
+  "ServerConflict": {
+    simplified: "An Exception Has Occured"
+  }
+};
+
+let getWebResponse = (code, error, value=null, details=null) => {
+  try {
+    let css, html;
+    css = `* {
+      margin: 0.1em;
+    }`;
+    if (typeof DetailedError[error].expanded != "undefined")
+      html = `<center><h1 class="status">Error ${code.toString()}: ${StatusCode[code]}</h1></center><br/>
+    <h3 class="simplified"><u>${DetailedError[error].simplified}</u></h3>
+    <ul>
+      <li class="expanded">${(!value) ? DetailedError[error].expanded : DetailedError[error].expanded.replace("/**/", value)}.</li>
+    </ul>
+    <p class="supplementary"><b>${(!details) ? `` : details}</b></p>`;
+    else html = `<center><h1 class="status">Error ${code.toString()}: ${StatusCode[code]}</h1></center><br/>
+    <h3 class="simplified"><u>${DetailedError[error].simplified}</u></h3>
+    <p class="supplementary"><b>${(!details) ? `` : details}</b></p>`;
+    return `<head>
+      <style>
+      ${css}
+      </style>
+    </head>
+    ${html}`;
+  } catch (err) { throw(err); }
+}
 
 let getHeaderObject = (url, obj) => {
   return new Promise((res, rej) => {
@@ -56,6 +113,7 @@ let fitImageAnnotation = (font, text, minSize, maxSize, regionW, regionH) => {
 }
 
 module.exports = {
+  getWebResponse: getWebResponse,
   getHeaderObject: getHeaderObject,
   fitImageAnnotation: fitImageAnnotation
 }
