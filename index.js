@@ -4,9 +4,10 @@ const path = require("path");
 const utils = require("./utils.js");
 const port = 8080;
 
+let bad = require("./render/bad.js");
 let ship = require("./render/ship.js");
 let joke = require("./render/joke.js");
-let bad = require("./render/bad.js");
+let what = require("./render/what.js");
 let brain = require("./render/brain.js");
 let achievement = require("./render/achievement.js");
 
@@ -33,6 +34,29 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/what", async (req, res) => {
+  let data, url_type;
+  let url = req.query.url;
+  if (!url) {
+    res.status(400).send(utils.getWebResponse(400, "MissingParameters", null, "/what?url=...")); return;
+  } else { //Check if given URL is valid
+    try { url_type = await utils.getHeaderObject(req.query.url, 'Content-Type'); }
+    catch (err) { res.status(400).send(utils.getWebResponse(400, "InvalidURL", null, err)); return; }
+  }
+  if (!['image/png', 'image/jpeg'].includes(url_type)) {
+    res.status(400).send(utils.getWebResponse(400, "InvalidURL", null, null)); return; 
+  }
+  let url_len = await utils.getHeaderObject(req.query.url, 'Content-Length');
+  if (url_len>(6*1024*1024)) { //Limit is set to 6 Megabytes
+    res.status(413).send(utils.getWebResponse(413, "ImageTooLarge", "6", null)); return;
+  }
+  try { data = await what.what(url); }
+  catch (err) { res.status(500).send(utils.getWebResponse(500, "ServerConflict", null, err)); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/bad", async (req, res) => {
