@@ -1,4 +1,3 @@
-const { response } = require('express');
 const opentype = require('opentype.js');
 
 let StatusCode = {
