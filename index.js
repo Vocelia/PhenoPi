@@ -9,6 +9,7 @@ let ship = require("./render/ship.js");
 let joke = require("./render/joke.js");
 let what = require("./render/what.js");
 let brain = require("./render/brain.js");
+let distracted = require("./render/distracted.js");
 let achievement = require("./render/achievement.js");
 
 let getEndpoints = () => {
@@ -34,6 +35,21 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/distracted", async (req, res) => {
+  let data; let txt1 = req.query.txt1;
+  let txt2 = req.query.txt2; let txt3 = req.query.txt3;
+  if (!(txt1 && txt2 && txt3)) {
+    res.status(400).send(utils.getWebResponse(400, "MissingParameters", null, "/distracted?txt1=...&txt2=...&txt3=...")); return;
+  } else if (txt1.length > 128 || txt2.length > 128 || txt3.length > 128) {
+      res.status(413).send(utils.getWebResponse(413, "TextOverFlow", "128", null)); return;
+  }
+  try { data = await distracted.distracted(txt1, txt2, txt3); }
+  catch (err) { res.status(500).send(utils.getWebResponse(500, "ServerConflict", null, err)); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/what", async (req, res) => {
@@ -93,13 +109,11 @@ app.get("/brain", async (req, res) => {
   let data; let txt3 = req.query.txt3; let txt4 = req.query.txt4;
   if (!(txt1 || txt2 || txt3 || txt4)) {
     res.status(400).send(utils.getWebResponse(400, "MissingParameters", null, "/brain?txt1=...[OPTIONAL]&txt2=...[OPTIONAL]&txt3=...[OPTIONAL]&txt4=...[OPTIONAL] (Provide at least one parameter)")); return;
-  } else {
-    if ((typeof txt1 != "undefined" && txt1.length > 256) || 
+  } else if ((typeof txt1 != "undefined" && txt1.length > 256) || 
       (typeof txt2 != "undefined" && txt2.length > 256) || 
       (typeof txt3 != "undefined" && txt3.length > 256) || 
       (typeof txt4 != "undefined" && txt4.length > 256)) {
       res.status(413).send(utils.getWebResponse(413, "TextOverFlow", "256", null)); return;
-    }
   }
   try { data = await brain.brain(txt1, txt2, txt3, txt4); }
   catch (err) { res.status(500).send(utils.getWebResponse(500, "ServerConflict", null, err)); return; }
