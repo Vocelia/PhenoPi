@@ -11,6 +11,7 @@ let what = require("./render/what.js");
 let brain = require("./render/brain.js");
 let distracted = require("./render/distracted.js");
 let achievement = require("./render/achievement.js");
+let alwayshasbeen = require("./render/always_has_been.js");
 
 let getEndpoints = () => {
   let excluded = [
@@ -35,6 +36,24 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/alwayshasbeen", async (req, res) => {
+  let data;
+  let txt1 = req.query.txt1; let txt2 = req.query.txt2;
+  let txt3 = req.query.txt3; let txt4 = req.query.txt4;
+  if (!(txt1 && txt2)) {
+    res.status(400).send(utils.getWebResponse(400, "MissingParameters", null, "/alwayshasbeen?txt1=...&txt2=...&txt3=...[OPTIONAL]&txt4=...[OPTIONAL]")); return;
+  } else if (txt1.length > 256 || txt2.length > 256 ||
+      (typeof txt3 != "undefined" && txt3.length > 256) || 
+      (typeof txt4 != "undefined" && txt4.length > 256)) {
+      res.status(413).send(utils.getWebResponse(413, "TextOverFlow", "256", null)); return;
+  }
+  try { data = await alwayshasbeen.alwayshasbeen(txt1, txt2, txt3, txt4); }
+  catch (err) { res.status(500).send(utils.getWebResponse(500, "ServerConflict", null, err)); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/distracted", async (req, res) => {
