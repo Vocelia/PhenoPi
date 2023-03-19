@@ -9,6 +9,7 @@ let ship = require("./render/ship.js");
 let joke = require("./render/joke.js");
 let what = require("./render/what.js");
 let brain = require("./render/brain.js");
+let scroll = require("./render/scroll.js");
 let distracted = require("./render/distracted.js");
 let achievement = require("./render/achievement.js");
 let alwayshasbeen = require("./render/always_has_been.js");
@@ -36,6 +37,20 @@ app.get("/", (req, res) => {
 
 app.get("/endpoints", (req, res) => {
   res.send(getEndpoints());
+});
+
+app.get("/scroll", async (req, res) => {
+  let data; let txt1 = req.query.txt1; let txt2 = req.query.txt2;
+  if (!txt1) {
+    res.status(400).send(utils.getWebResponse(400, "MissingParameters", null, "/scroll?txt1=...&txt2=...[OPTIONAL]")); return;
+  } else if (txt1.length > 256 || (typeof txt2 != "undefined" && txt2.length > 256)) {
+      res.status(413).send(utils.getWebResponse(413, "TextOverFlow", "256", null)); return;
+  }
+  try { data = await scroll.scroll(txt1, txt2); }
+  catch (err) { res.status(500).send(utils.getWebResponse(500, "ServerConflict", null, err)); return; }
+  res.setHeader('Content-Type', 'image/png');
+  res.setHeader('Content-Disposition', 'inline');
+  res.send(Buffer.from(data));
 });
 
 app.get("/alwayshasbeen", async (req, res) => {
