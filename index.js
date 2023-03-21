@@ -31,8 +31,9 @@ let getEndpoints = () => {
 }
 
 app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use("/src", express.static("src"));
 app.set("views", path.join(__dirname, "templates"));
-app.use("/src", express.static(path.join(__dirname, "src")));
 
 app.get("/", (req, res) => {
   let visitsFile = fs.readFileSync("./data/visits.json", "utf-8");
