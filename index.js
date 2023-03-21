@@ -1,6 +1,8 @@
+const express = require("express");
 const app = require("express")();
 const http = require("http").Server(app);
 const path = require("path");
+const fs = require("fs");
 const utils = require("./utils.js");
 const port = 8080;
 
@@ -30,9 +32,21 @@ let getEndpoints = () => {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "templates"));
+app.use("/src", express.static(path.join(__dirname, "src")));
 
 app.get("/", (req, res) => {
-  //Ahem...nothing here yet.......
+  let visitsFile = fs.readFileSync("./data/visits.json", "utf-8");
+  let visits = JSON.parse(visitsFile);
+  visits["visits"]++;
+  visitsFile = JSON.stringify(visits, null, 4);
+  fs.writeFileSync("./data/visits.json", visitsFile, "utf-8");
+  res.render("index");
+});
+
+app.get("/visits", (req, res) => {
+  let visitsFile = fs.readFileSync("./data/visits.json", "utf-8");
+  let visits = JSON.parse(visitsFile);
+  res.send(visits);
 });
 
 app.get("/endpoints", (req, res) => {
