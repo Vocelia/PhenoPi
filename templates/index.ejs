@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <title>Memey API</title>
-    <link rel="icon" href="https://unpkg.com/ionicons@5.5.2/dist/svg/code-slash.svg"/>
+    <link rel="icon" href="/icon.png"/>
     <link rel="stylesheet" href="../src/css/index.css"/>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
     <meta content="Memey API" property="og:title"/>
-    <meta content="The ultimate place to create half-assed memes for free." property="og:description"/>
+    <meta content="The perfect place to create half-assed memes for free." property="og:description"/>
     <meta content="https://api.vocelia.repl.co" property="og:url"/>
-    <meta content="https://unpkg.com/ionicons@5.5.2/dist/svg/code-slash.svg" property="og:image">
+    <meta content="https://api.vocelia.repl.co/icon.png" property="og:image">
     <meta content="#FF0000" data-react-helmet="true" name="theme-color"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   </head>
   <body>
-    <nav>
-      <img width="50em" height="50em" src="https://unpkg.com/ionicons@5.5.2/dist/svg/code-slash.svg">
-      <label>
-        Light/Dark
-        <input type="checkbox" id="theme-switch" role="switch" checked="">
-      </label>
+    <nav class="navigation">
+      <ul>
+        <li>
+          <img width="50em" height="50em" src="/icon.png">
+        </li>
+        <li>
+          <h3>Memey API</h3>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <label>
+            Dark Theme
+            <input type="checkbox" id="theme-switch" role="switch" checked="">
+          </label>
+        </li>
+      </ul>
     </nav>
+    <div style="margin: 3em;"></div>
     <center>
-      <h1>Memey API</h1>
-      <p>The place to create <code>half-assed</code> memes for free.</p>
+      <h1 id="title">Minimalist Meme Generator API</h1>
+      <p id="subtitle">Behold, mortal! You have stumbled upon the hallowed ground where <code>half-assed</code> memes reign supreme, and where creativity is optional but appreciated. Join us, and bask in the glory of our <em data-tooltip="Available now at a price of $9.99 - don't miss out on this limited offer!"><strong>free</strong></em> meme-making services, where no effort is too little and no idea is too lame. This is the perfect place for you to unleash your creativity, or lack thereof.</p>
     </center>
-    
-    
-    
     <footer class="footer">
       <div class="visitors">
         <div class="visitors visitors-item-1">
@@ -42,15 +51,15 @@
       <div style="margin: 0.3em;"></div>
       <ul class="social-icon">
         <li class="social-icon__item">
-          <a class="social-icon__link" href="https://about.vocelia.repl.co">
+          <a class="social-icon__link" data-tooltip="About Me" href="https://about.vocelia.repl.co">
             <ion-icon name="home"></ion-icon>
           </a></li>
         <li class="social-icon__item">
-          <a class="social-icon__link" href="https://discord.com/users/939141111941840926">
+          <a class="social-icon__link" data-tooltip="Discord" href="https://discord.com/users/939141111941840926">
             <ion-icon name="logo-discord"></ion-icon>
           </a></li>
         <li class="social-icon__item">
-          <a class="social-icon__link" href="https://github.com/Vocelia">
+          <a class="social-icon__link" data-tooltip="Github" href="https://github.com/Vocelia">
             <ion-icon name="logo-github"></ion-icon>
           </a></li>
       </ul>
