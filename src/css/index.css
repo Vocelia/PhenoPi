@@ -20,6 +20,10 @@
   padding: 0 auto 0 auto;
 }
 
+.navigation li a {
+  padding: 0;
+}
+
 .navigation li img {
   margin: 0 auto 0 0.8em;
 }
