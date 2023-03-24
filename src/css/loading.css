@@ -1,0 +1,67 @@
+@keyframes ldio-n74jd3cyqcq-1 {
+    0% { transform: rotate(0deg) }
+   50% { transform: rotate(-45deg) }
+  100% { transform: rotate(0deg) }
+}
+@keyframes ldio-n74jd3cyqcq-2 {
+    0% { transform: rotate(180deg) }
+   50% { transform: rotate(225deg) }
+  100% { transform: rotate(180deg) }
+}
+.ldio-n74jd3cyqcq > div:nth-child(2) {
+  transform: translate(-15px,0);
+}
+.ldio-n74jd3cyqcq > div:nth-child(2) div {
+  position: absolute;
+  top: 40.8px;
+  left: 40.8px;
+  width: 122.4px;
+  height: 61.2px;
+  border-radius: 122.4px 122.4px 0 0;
+  background: #eef204;
+  animation: ldio-n74jd3cyqcq-1 0.5813953488372093s linear infinite;
+  transform-origin: 61.2px 61.2px
+}
+.ldio-n74jd3cyqcq > div:nth-child(2) div:nth-child(2) {
+  animation: ldio-n74jd3cyqcq-2 0.5813953488372093s linear infinite
+}
+.ldio-n74jd3cyqcq > div:nth-child(2) div:nth-child(3) {
+  transform: rotate(-90deg);
+  animation: none;
+}@keyframes ldio-n74jd3cyqcq-3 {
+    0% { transform: translate(193.8px,0); opacity: 0 }
+   20% { opacity: 1 }
+  100% { transform: translate(71.4px,0); opacity: 1 }
+}
+.ldio-n74jd3cyqcq > div:nth-child(1) {
+  display: block;
+}
+.ldio-n74jd3cyqcq > div:nth-child(1) div {
+  position: absolute;
+  top: 93.84px;
+  left: -8.16px;
+  width: 16.32px;
+  height: 16.32px;
+  border-radius: 50%;
+  background: #f3314e;
+  animation: ldio-n74jd3cyqcq-3 0.5813953488372093s linear infinite
+}
+.ldio-n74jd3cyqcq > div:nth-child(1) div:nth-child(1) { animation-delay: -1.1524s }
+.ldio-n74jd3cyqcq > div:nth-child(1) div:nth-child(2) { animation-delay: -0.5676s }
+.ldio-n74jd3cyqcq > div:nth-child(1) div:nth-child(3) { animation-delay: 0s }
+.loadingio-spinner-bean-eater-81q2jxphfgx {
+  width: 204px;
+  height: 204px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.ldio-n74jd3cyqcq {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+}
+.ldio-n74jd3cyqcq div { box-sizing: content-box; }
