@@ -10,7 +10,6 @@
 }
 
 .navigation {
-  width: 99%;
   background: rgba(16, 24, 30, 0.8);
   box-shadow: 0 0.06em 0 rgba(115, 130, 140, 0.2);
 }
@@ -32,17 +31,34 @@
   margin: 0 0.8em 0 auto;
 }
 
-.footer {
+.meme-box {
+  width: 75%;
+  padding: 1em;
   display: flex;
-  position: absolute;
+  border-radius: 10px;
+  margin: 2.5em 0 5em 0;
+  background-color: rgb(46, 80, 97);
+}
+
+.image-box {
+  
+}
+
+.control-box {
+  
+}
+
+.footer {
   bottom: 0;
-  background: rgba(16, 24, 30, 0.8);
+  display: flex;
+  position: relative;
   min-height: 100px;
   padding: 20px 50px;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 0 100px 0 rgba(115, 130, 140, 0.2);
+  background: rgba(16, 24, 30, 0.8);
+  box-shadow: 0 0 5em rgba(115, 130, 140, 0.2);
 }
 
 .footer p {
