@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 
+#switch-ul {
+  margin-right: 0;
+  padding-right: 0.7em;
+}
+
 #title {
   margin: 0;
   padding: 0;
