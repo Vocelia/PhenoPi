@@ -18,7 +18,7 @@ let alwayshasbeen = require("./render/always_has_been.js");
 
 let getEndpoints = () => {
   let excluded = [
-    "/", "/endpoints"
+    "/", "/endpoints", "/visits"
   ]; let endpoints =  [];
   app._router.stack.forEach((middleware) => {
     if (middleware.route && !excluded.includes(middleware.route.path)) {
