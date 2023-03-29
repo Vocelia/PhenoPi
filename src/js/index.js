@@ -10,7 +10,6 @@ fetch('/visits')
   })
   .catch(error => console.error(error));
 
-  console.log("hey")
 fetch('/endpoints')
   .then(response => response.json())
   .then(data => {
