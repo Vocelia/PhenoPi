@@ -1,12 +1,24 @@
 let style = document.createElement("style");
 let counter = document.getElementById("visits-counter");
 let memes_switch = document.querySelector("#memes-switch");
-
+let meme_selector = document.querySelector(".meme-selector");
 
 fetch('/visits')
   .then(response => response.json())
   .then(data => {
     counter.innerHTML = `Thanks for visiting!<br>Visits: <font color='red'>${data.visits}</font>`;
+  })
+  .catch(error => console.error(error));
+
+  console.log("hey")
+fetch('/endpoints')
+  .then(response => response.json())
+  .then(data => {
+    for (i=0; i<data.length; i++) {
+      let element = document.createElement("option");
+      element.innerHTML = data[i].substring(data[i].indexOf('/')+1);
+      meme_selector.appendChild(element);
+    }
   })
   .catch(error => console.error(error));
 
