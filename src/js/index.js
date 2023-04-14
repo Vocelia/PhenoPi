@@ -1,9 +1,9 @@
 let entries;
 let style = document.createElement("style");
+let controls = document.querySelector(".controls");
 let counter = document.getElementById("visits-counter");
 let memes_switch = document.querySelector("#memes-switch");
 let meme_selector = document.querySelector(".meme-selector");
-let controls = document.getElementsByClassName("controls");
 
 fetch('/visits')
   .then(response => response.json())
@@ -22,6 +22,7 @@ fetch('/endpoints')
   .then(data => {
     for (i=0; i<data.length; i++) {
       let element = document.createElement("option");
+      element.id = data[i].substring(data[i].indexOf('/')+1);
       element.innerHTML = entries[data[i].substring(data[i].indexOf('/')+1)].name;
       meme_selector.appendChild(element);
     }
@@ -41,5 +42,5 @@ memes_switch.addEventListener("change", (event) => {
 });
 
 meme_selector.addEventListener("change", (event) => {
-  
+  controls.innerHTML = entries[event.target.options[event.target.selectedIndex].id].components;
 });
