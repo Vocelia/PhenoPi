@@ -1,38 +1,38 @@
 {
     "scroll": {
         "name": "The Scroll of Truth",
-        "components": "<input type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'>"
+        "components": "<input id='scroll' type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'>"
     },
     "alwayshasbeen": {
         "name": "Always Has Been",
-        "components": "<input type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'> required\n<input type='text' class='txt3' placeholder='Third Field'>\n<input type='text' class='txt4' placeholder='Fourth Field'>"
+        "components": "<input id='alwayshasbeen' type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'> required\n<input type='text' class='txt3' placeholder='Third Field'>\n<input type='text' class='txt4' placeholder='Fourth Field'>"
     },
     "distracted": {
         "name": "Distracted Boyfriend",
-        "components": "<input type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'> required\n<input type='text' class='txt3' placeholder='Third Field' required>"
+        "components": "<input id='distracted' type='text' class='txt1' placeholder='First Field' required>\n<input type='text' class='txt2' placeholder='Second Field'> required\n<input type='text' class='txt3' placeholder='Third Field' required>"
     },
     "what": {
         "name": "Wait What?",
-        "components": "<input type='text' class='url' placeholder='URL to Image' required>"
+        "components": "<input id='what' type='text' class='url' placeholder='URL to Image' required>"
     },
     "bad": {
         "name": "You Are Bad",
-        "components": "<input type='text' class='url' placeholder='URL to Image' required>\n<input type='text' class='text' placeholder='Text Field'>"
+        "components": "<input id='bad' type='text' class='url' placeholder='URL to Image' required>\n<input type='text' class='text' placeholder='Text Field'>"
     },
     "brain": {
         "name": "Expanding Brain",
-        "components": "<input type='text' class='txt1' placeholder='First Field'>\n<input type='text' class='txt2' placeholder='Second Field'>\n<input type='text' class='txt3' placeholder='Third Field'>\n<input type='text' class='txt4' placeholder='Fourth Field'>"
+        "components": "<input id='brain' type='text' class='txt1' placeholder='First Field'>\n<input type='text' class='txt2' placeholder='Second Field'>\n<input type='text' class='txt3' placeholder='Third Field'>\n<input type='text' class='txt4' placeholder='Fourth Field'>"
     },
     "joke": {
         "name": "Joke Over Head",
-        "components": "<input type='text' class='url' placeholder='URL to Image' required>"
+        "components": "<input id='joke' type='text' class='url' placeholder='URL to Image' required>"
     },
     "ship": {
         "name": "Ship",
-        "components": "<input type='text' class='url1' placeholder='First URL to Image' required>\n<input type='text' class='url2' placeholder='Second URL to Image' required>"
+        "components": "<input id='ship' type='text' class='url1' placeholder='First URL to Image' required>\n<input type='text' class='url2' placeholder='Second URL to Image' required>"
     },
     "achievement": {
         "name": "Minecraft Achievement",
-        "components": "<input type='text' class='text' placeholder='Text Field' required>\n<select class='icon'><option value='' disabled selected>Select An Icon</option></select>"
+        "components": "<input id='achievement' type='text' class='text' placeholder='Text Field' required>\n<select class='icon'><option value='' disabled selected>Select An Icon</option></select>"
     }
 }
