@@ -1,7 +1,9 @@
+let entries;
 let style = document.createElement("style");
 let counter = document.getElementById("visits-counter");
 let memes_switch = document.querySelector("#memes-switch");
 let meme_selector = document.querySelector(".meme-selector");
+let controls = document.getElementsByClassName("controls");
 
 fetch('/visits')
   .then(response => response.json())
@@ -10,12 +12,17 @@ fetch('/visits')
   })
   .catch(error => console.error(error));
 
+fetch('/entries.json')
+  .then(response => response.json())
+  .then(data => entries = data)
+  .catch(error => console.error(error));
+
 fetch('/endpoints')
   .then(response => response.json())
   .then(data => {
     for (i=0; i<data.length; i++) {
       let element = document.createElement("option");
-      element.innerHTML = data[i].substring(data[i].indexOf('/')+1);
+      element.innerHTML = entries[data[i].substring(data[i].indexOf('/')+1)].name;
       meme_selector.appendChild(element);
     }
   })
@@ -31,4 +38,8 @@ memes_switch.addEventListener("change", (event) => {
     style.innerHTML = `*:hover { display: none; }`;
     document.head.appendChild(style);
   }
+});
+
+meme_selector.addEventListener("change", (event) => {
+  
 });
